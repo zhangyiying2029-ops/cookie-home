@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>饼饼的听力学习库</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%235856e3'/%3E%3Cpath d='M12 10.5v11l9-5.5z' fill='white'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Sans+SC:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-view="home" data-mode="bilingual">
+
+<!-- ================= 首页视图 ================= -->
+<section class="view" id="viewHome">
+  <header class="home-bar">
+    <span class="brand-logo">
+      <svg viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>
+    </span>
+    <span class="brand-name">精听英语库 <span class="en">Listening Lab</span></span>
+  </header>
+
+  <div class="hero">
+    <span class="hero-eyebrow"><span class="dot"></span>实景英语 · 逐句精听</span>
+    <h1>看实景视频，<span class="en">一句一句</span>练听力</h1>
+    <p>每节课都是一段真实场景英语视频，配中英双语字幕。点任意句子跳转复读，支持单句循环、单句暂停、倍速与字号调节，自动记住你的学习进度。</p>
+    <div class="hero-stats" id="heroStats"></div>
+  </div>
+
+  <main class="course-grid" id="courseGrid"></main>
+
+  <div class="home-footer">点击课程卡片即可开始学习 · 学习进度仅保存在当前浏览器</div>
+</section>
+
+<!-- ================= 播放器视图 ================= -->
+<section class="view" id="viewPlayer">
+  <header class="topbar">
+    <a class="back-btn" id="backBtn" title="返回课程库" href="#/">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M15 18l-6-6 6-6"/></svg>
+    </a>
+    <h1 id="videoTitle">视频标题</h1>
+    <div class="course-nav">
+      <button class="nav-step" id="prevCourseBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        <span class="nav-label">上一课</span>
+      </button>
+      <span class="nav-pos" id="coursePos"></span>
+      <button class="nav-step" id="nextCourseBtn">
+        <span class="nav-label">下一课</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="video-panel">
+      <div class="video-wrap">
+        <video id="video" preload="metadata" playsinline controls></video>
+      </div>
+      <div class="controls">
+        <button class="ctrl-btn on" id="followBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+          自动跟随
+        </button>
+        <button class="ctrl-btn" id="prevBtn" title="上一句">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
+          上一句
+        </button>
+        <button class="ctrl-btn" id="nextBtn" title="下一句">
+          下一句
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 6h2v12h-2zM6 6v12l8.5-6z"/></svg>
+        </button>
+        <div class="ctrl-sep"></div>
+        <button class="ctrl-btn" id="pauseSentenceBtn">单句暂停</button>
+        <button class="ctrl-btn" id="speedBtn">倍速 1.0x</button>
+        <button class="ctrl-btn" id="fontBtn">字号 默认</button>
+        <button class="ctrl-btn" id="restartBtn" title="清除进度并回到开头">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 109-9 9 9 0 00-6.4 2.6L3 8"/><path d="M3 3v5h5"/></svg>
+          重头
+        </button>
+      </div>
+      <div class="now-sub" id="nowSub">
+        <div class="now-sub-head">
+          <span></span>
+          <button class="now-sub-toggle" id="collapseBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+            收起字幕
+          </button>
+        </div>
+        <div class="now-sub-body">
+          <div class="now-en" id="nowEn">点击播放，开始精听练习</div>
+          <div class="now-zh" id="nowZh"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sub-panel">
+      <nav class="tabs">
+        <button class="tab on" data-mode="bilingual">双语</button>
+        <button class="tab" data-mode="en">英文</button>
+        <button class="tab" data-mode="zh">中文</button>
+      </nav>
+      <div class="cap-list" id="capList"></div>
+    </section>
+  </main>
+</section>
+
+<script src="assets/courses.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
