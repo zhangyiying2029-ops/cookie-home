@@ -59,10 +59,6 @@
 
 > 视频和字幕通过相对路径加载，请保持 `index.html` 与 `assets/` 文件夹在同一目录；整体移动或转发时请连同文件夹一起复制。
 
-### 在线访问
-已发布版本：<https://bytedance.doubaoapps.com/app/app_17ejk9t378b>
-（打开需登录豆包账号。）
-
 ---
 
 ## 课程列表
